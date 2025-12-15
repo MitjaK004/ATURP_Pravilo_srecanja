@@ -2,6 +2,7 @@
 #include <vector>
 #include <deque>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -9,11 +10,20 @@ static inline int id(int x, int y, int M) {
     return x * M + y;
 }
 
-int main() {
-    cin.tie(nullptr);
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cout << -1 << "\n";
+        return 0;
+    }
+
+    ifstream in(argv[1]);
+    if (!in) {
+        cout << -5 << "\n";
+        return 0;
+    }
 
     int N, M, E;
-    cin >> N >> M >> E;
+    in >> N >> M >> E;
 
     int V = N * M;
     vector<unsigned char> mask(V, 0);
@@ -29,12 +39,12 @@ int main() {
 
     for (int i = 0; i < E; i++) {
         int x1, y1, x2, y2;
-        cin >> x1 >> y1 >> x2 >> y2;
+        in >> x1 >> y1 >> x2 >> y2;
         add_edge(x1, y1, x2, y2);
     }
 
     int px, py, cx, cy, fx, fy;
-    cin >> px >> py >> cx >> cy >> fx >> fy;
+    in >> px >> py >> cx >> cy >> fx >> fy;
 
     if (cx == fx && cy == fy) {
         cout << 0 << "\n";
@@ -75,12 +85,6 @@ int main() {
         if (d == 3) return 1;
         if (d == 1) return 2;
         return 0;
-        };
-    auto backDir = [&](int d) {
-        if (d == 0) return 1;
-        if (d == 1) return 0;
-        if (d == 2) return 3;
-        return 2;
         };
 
     while (!q.empty()) {
